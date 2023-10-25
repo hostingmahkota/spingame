@@ -292,8 +292,8 @@ const Wheels = forwardRef(
       return <>-</>
     }
     return (
-      <div className="relative flex w-[350px] md:w-[500px]">
-        <div className="absolute left-[52.3%] top-[5px] h-[39px] w-[41px] -translate-x-1/2 rotate-90 md:left-[53%] md:top-[5px] md:h-[78px] md:w-[82px] ">
+      <div className="relative flex w-[350px] md:w-[400px]">
+        <div className="absolute left-[52.3%] top-[5px] h-[39px] w-[41px] -translate-x-1/2 rotate-90 md:left-[53%] md:top-[5px] md:h-[60px] md:w-[64px] ">
           <Image
             src={"./arrow.svg"}
             alt=""
@@ -301,7 +301,7 @@ const Wheels = forwardRef(
             className={cn(isStarted && "animate-wiggle")}
           />
         </div>
-        <Button className="absolute left-1/2 top-1/2 z-20 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-[6px] border-white bg-[#001e38] hover:bg-[#001e38] md:h-20 md:w-20">
+        <Button className="absolute left-1/2 top-1/2 z-20 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border-[6px] border-white bg-[#001e38] hover:bg-[#001e38] md:h-16 md:w-16">
           <Star size={32} fill="#fff" className={cn(isStarted && "animate-spin")} />
         </Button>
         {!isStarted && (

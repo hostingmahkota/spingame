@@ -10,7 +10,7 @@ const TrpcProvider = ({children}:PropsWithChildren) => {
   const [trpcClient] = useState(()=> trpc.createClient({
     links: [
       httpBatchLink({
-        url: process.env.TRPC_URL || "https://spingame.vercel.app/api/trpc",
+        url: "/api/trpc",
       })
     ]
   }))

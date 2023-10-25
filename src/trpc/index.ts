@@ -3,29 +3,31 @@ import { privateProcedure, publicProcedure, router } from "./trpc";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
+import { gameOption } from "@/app/(game)/misteribox/page";
+import { TSpinerOption } from "@/lib/type/tspiner";
 
 export const appRouter = router({
-  register: publicProcedure
-    .input(z.object({
-      username: z.string(),
-      password: z.string()
-    }))
-    .mutation(async ({input}) => {
-      const {username,password} = input
-      const exist = await db.user.findUnique({
-        where: {username: username}
-      })
-      if(exist) throw new TRPCError({code: 'BAD_REQUEST'})
-      const hashedPassword = await bcrypt.hash(password,10)
-      const user = await db.user.create({
-        data: {
-          username: username,
-          password: hashedPassword
-        }
-      })
+  // register: publicProcedure
+  //   .input(z.object({
+  //     username: z.string(),
+  //     password: z.string()
+  //   }))
+  //   .mutation(async ({input}) => {
+  //     const {username,password} = input
+  //     const exist = await db.user.findUnique({
+  //       where: {username: username}
+  //     })
+  //     if(exist) throw new TRPCError({code: 'BAD_REQUEST'})
+  //     const hashedPassword = await bcrypt.hash(password,10)
+  //     const user = await db.user.create({
+  //       data: {
+  //         username: username,
+  //         password: hashedPassword
+  //       }
+  //     })
 
-      return {user}
-  }),
+  //     return {user}
+  // }),
   changePassword: privateProcedure.input(z.object({
     userId: z.string(),
     password: z.string()
@@ -225,6 +227,10 @@ export const appRouter = router({
     const data = await db.luckySpinerOption.findMany()
     return {data}
   }),
+  getLuckySpinerOptionClient: publicProcedure.query(async () => {
+    const option:TSpinerOption[] = await db.luckySpinerOption.findMany()
+    return {option}
+  }),
   getLuckySpinerOptionList: privateProcedure
     .input(
       z.object({
@@ -342,6 +348,22 @@ export const appRouter = router({
   getMisteriboxOptionListsAll: privateProcedure.mutation(async () => {
     const data = await db.misteriboxOption.findMany()
     return {data}
+  }),
+  getMisteriboxOptionClient: publicProcedure.query(async () => {
+    const option = await db.misteriboxOption.findMany()
+    let optionData:gameOption[] = []
+    option.map((item,index) => {
+      optionData.push({
+        id: item.id,
+        option: item.option,
+        category: item.category,
+        x: 0,
+        y: 0,
+        c: index,
+        open: false
+      })
+    })
+    return {option: optionData}
   }),
   getMisteriboxOptionLists: privateProcedure
     .input(
